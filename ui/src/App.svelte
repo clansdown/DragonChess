@@ -8,11 +8,12 @@ onMount(() => {
 function drawBoard() {
   let canvas = document.getElementById("board");
   let ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#3f3053";
   ctx.beginPath();
   ctx.rect(0, 0, 600, 600);
   ctx.fill();
 
- ctx.fillStyle = "#fff";
+ ctx.fillStyle = "#edfeff";
   ctx.beginPath();
   for(let j = 0; j < 8; j++){
     for(let i = 0; i <= 4; i ++){
