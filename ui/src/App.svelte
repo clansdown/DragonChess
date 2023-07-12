@@ -37,11 +37,8 @@ function drawBoard() {
         sprite = spritesheet.get("white_square");
       } else {
           // black tiles
-          // ctx.drawImage(sprites, 96, 16, 16, 16, 75*i, 75*j, 75, 75);
         sprite = spritesheet.get("black_square");
       }
-      // console.log(sprites);
-      // console.log(sprite.x + ", " + sprite.y + ", " );
       ctx.drawImage(sprites, sprite.x, sprite.y, sprite.width, sprite.height, 75*i, 75*j, 75, 75);
     }
   }
