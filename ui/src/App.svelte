@@ -14,6 +14,18 @@ let spritesheet = new Map<string,Sprite>([
   ["black_square", { x: 96, y: 16, width: 16, height: 16}],  
   ["white_pawn", { x: 0, y: 0, width: 16, height: 16}],
   ["black_pawn", { x: 0, y: 16, width: 16, height: 16}],
+  ["white_knight", { x: 16, y: 0, width: 16, height: 16}],
+  ["black_knight", { x: 16, y: 16, width: 16, height: 16}],
+  ["white_bishop", { x: 32, y: 0, width: 16, height: 16}],
+  ["black_bishop", { x: 32, y: 16, width: 16, height: 16}],
+  ["white_rook", { x: 48, y: 0, width: 16, height: 16}],
+  ["br", { x: 48, y: 16, width: 16, height: 16}],
+  ["wq", { x: 64, y: 0, width: 16, height: 16}],
+  ["bq", { x: 64, y: 16, width: 16, height: 16}],
+  ["wk", { x: 80, y: 0, width: 16, height: 16}],
+  ["bk", { x: 80, y: 16, width: 16, height: 16}],
+  ["cursor_white", { x: 0, y: 32, width: 16, height: 16}],
+  ["cursor_black", { x: 16, y: 32, width: 16, height: 16}],
 ]);
 
 function drawBoard() {
