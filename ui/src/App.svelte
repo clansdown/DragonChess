@@ -1,5 +1,6 @@
 <script lang="ts">
   import { afterUpdate, onMount } from 'svelte';
+    import { assign } from 'svelte/internal';
 
 
 class Sprite {
@@ -19,16 +20,59 @@ let spritesheet = new Map<string,Sprite>([
   ["white_bishop", { x: 32, y: 0, width: 16, height: 16}],
   ["black_bishop", { x: 32, y: 16, width: 16, height: 16}],
   ["white_rook", { x: 48, y: 0, width: 16, height: 16}],
-  ["br", { x: 48, y: 16, width: 16, height: 16}],
-  ["wq", { x: 64, y: 0, width: 16, height: 16}],
-  ["bq", { x: 64, y: 16, width: 16, height: 16}],
-  ["wk", { x: 80, y: 0, width: 16, height: 16}],
-  ["bk", { x: 80, y: 16, width: 16, height: 16}],
+  ["black_rook", { x: 48, y: 16, width: 16, height: 16}],
+  ["white_queen", { x: 64, y: 0, width: 16, height: 16}],
+  ["black_queen", { x: 64, y: 16, width: 16, height: 16}],
+  ["white_king", { x: 80, y: 0, width: 16, height: 16}],
+  ["black_king", { x: 80, y: 16, width: 16, height: 16}],
   ["cursor_white", { x: 0, y: 32, width: 16, height: 16}],
   ["cursor_black", { x: 16, y: 32, width: 16, height: 16}],
 ]);
 
-function drawBoard() {
+
+class Square {
+  piece: string;
+}
+
+let board : Square[] = Array(64);
+init_board(board);
+
+function square_at(column:number, row:number) : Square {
+  return board[8*row + column];
+}
+
+function init_board(b:Square[]) {
+  for(let i = 0; i < 64; i++){
+    b[i] = {piece: undefined};
+  }
+  square_at(0, 0).piece = "white_rook";
+  square_at(1, 0).piece = "white_knight";
+  square_at(2, 0).piece = "white_bishop";
+  square_at(3, 0).piece = "white_queen";
+  square_at(4, 0).piece = "white_king";
+  square_at(5, 0).piece = "white_bishop";
+  square_at(6, 0).piece = "white_knight";
+  square_at(7, 0).piece = "white_rook";
+  for(let p = 0; p < 8; p++){
+    square_at(p, 1).piece = "white_pawn"; 
+  }
+  square_at(0, 7).piece = "black_rook";
+  square_at(1, 7).piece = "black_knight";
+  square_at(2, 7).piece = "black_bishop";
+  square_at(3, 7).piece = "black_queen";
+  square_at(4, 7).piece = "black_king";
+  square_at(5, 7).piece = "black_bishop";
+  square_at(6, 7).piece = "black_knight";
+  square_at(7, 7).piece = "black_rook";
+  for(let p = 0; p < 8; p++){
+    square_at(p, 6).piece = "black_pawn"; 
+  }
+ 
+}
+
+
+
+function draw_board() {
   let canvas = document.getElementById("board");
   let ctx = canvas.getContext("2d");
   ctx.imageSmoothingEnabled = false;
@@ -43,7 +87,7 @@ function drawBoard() {
   for(let j = 0; j < 8; j++){
     for(let i = 0; i < 8; i ++){
       let black_begins = (j%2);
-      let sprite;
+      let sprite:Sprite;
       if(i%2==black_begins){
           // white tiles
         sprite = spritesheet.get("white_square");
@@ -51,20 +95,34 @@ function drawBoard() {
           // black tiles
         sprite = spritesheet.get("black_square");
       }
-      ctx.drawImage(sprites, sprite.x, sprite.y, sprite.width, sprite.height, 75*i, 75*j, 75, 75);
+      ctx.drawImage(sprites, 
+                    sprite.x, sprite.y, sprite.width, sprite.height, 
+                    75*i, 75*j, 75, 75);
     }
   }
   ctx.fill();
+  draw_pieces(ctx, sprites);
 }
 
-
+function draw_pieces(ctx, pieces) {
+  for(let row = 0; row < 8; row++){
+    for(let column = 0; column < 8; column++){
+      let sprite = spritesheet.get(square_at(column, row).piece);
+      if(sprite){
+        ctx.drawImage(pieces, 
+                      sprite.x, sprite.y, sprite.width, sprite.height,
+                      column*75, (7-row)*75, 75, 75);
+      }
+    }
+  }
+}
 
 </script>
 
 <main>
   <h1>DragonChess!</h1>
 
-  <img id="spritesheet" src="dragonchess.png" class="spritesheet" on:load={drawBoard} />
+  <img id="spritesheet" src="dragonchess.png" class="spritesheet" on:load={draw_board} />
 <center>
   <canvas id="board" width="600" height="600" ></canvas>
 </center>
