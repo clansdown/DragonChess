@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <script>
+
+      function mouseMoved(ev) {
+          let canvas = document.getElementById("can");
+          let rect = canvas.getBoundingClientRect();
+          let x = 600*(ev.clientX - rect.left)/rect.width;
+          let y = 600*(ev.clientY - rect.y)/rect.height;
+
+          let ctx = can.getContext("2d");
+          ctx.beginPath();
+          ctx.fillStyle = "#fff";
+          ctx.rect(x-1, y-1, 3, 3);
+
+          ctx.fill();
+          console.log("ev.clientX == " + ev.clientX + ", rect.width == " + rect.width);
+      }
+      
+      function draw() {
+          let canvas = document.getElementById("can");
+          let ctx = can.getContext("2d");
+          ctx.beginPath();
+          ctx.fillStyle = "#000";
+          ctx.rect(0, 0, 600, 600);
+
+          ctx.fill();
+
+          can.addEventListener("mousemove", mouseMoved);
+          console.log("added listener.");
+      }
+
+      
+    </script>
+  </head>
+  <body onLoad="draw()">
+
+
+    <canvas id="can" width=600 height=600 style="border: 1px solid #000; width: 1000px; height: 1000px;"></canvas>
+    
+  </body>
+</html>
