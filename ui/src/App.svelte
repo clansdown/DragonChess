@@ -81,7 +81,7 @@ function draw_board() {
   let sprites = document.getElementById("spritesheet");
   ctx.fillStyle = "#3f3053";
   ctx.beginPath();
-  ctx.rect(0, 0, 600, 600);
+  ctx.rect(0, 0, 512, 512);
   ctx.fill();
 
  ctx.fillStyle = "#edfeff";
@@ -97,7 +97,7 @@ function draw_board() {
       }
       ctx.drawImage(sprites, 
                     sprite.x, sprite.y, sprite.width, sprite.height, 
-                    75*i, 75*j, 75, 75);
+                    64*i, 64*j, 64, 64);
     }
   }
   ctx.fill();
@@ -114,7 +114,7 @@ function draw_pieces(ctx, pieces) {
       if(sprite){
         ctx.drawImage(pieces, 
                       sprite.x, sprite.y, sprite.width, sprite.height,
-                      column*75, (7-row)*75, 75, 75);
+                      column*64, (7-row)*64, 64, 64);
       }
     }
   }
@@ -127,7 +127,7 @@ function draw_highlights(ctx, sprites) {
         let sprite = spritesheet.get("cursor_white");
         ctx.drawImage(sprites,
           sprite.x, sprite.y, sprite.width, sprite.height,
-          column*75, (7-row)*75, 75, 75);
+          column*64, (7-row)*64, 64, 64);
       }
     }
   }
@@ -137,10 +137,10 @@ function draw_highlights(ctx, sprites) {
 function mouseMoved(event){
   let canvas = document.getElementById("board");
   let rect = canvas.getBoundingClientRect();
-  let x = 600*(event.clientX - rect.left)/rect.width;
-  let y = 600*(event.clientY - rect.y)/rect.height;
-  let column = Math.floor(x/75);
-  let row = 7 - Math.floor(y/75);
+  let x = 512*(event.clientX - rect.left)/rect.width;
+  let y = 512*(event.clientY - rect.y)/rect.height;
+  let column = Math.floor(x/64);
+  let row = 7 - Math.floor(y/64);
   // console.log("col == " + column + ", row == " + row);
   for(let sclear = 0; sclear <64; sclear++) {
     board[sclear].highlighted = false;
@@ -161,7 +161,7 @@ onMount(()=>{
 
   <img id="spritesheet" src="dragonchess.png" class="spritesheet" on:load={draw_board} />
 <center>
-  <canvas id="board" width="600" height="600" ></canvas>
+  <canvas id="board" width="512" height="512" ></canvas>
 </center>
 
 
