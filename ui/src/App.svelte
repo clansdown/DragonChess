@@ -32,6 +32,8 @@ let spritesheet = new Map<string,Sprite>([
 
 class Square {
   piece: string;
+  highlighted: boolean;
+  selected: boolean; 
 }
 
 let board : Square[] = Array(64);
@@ -43,7 +45,7 @@ function square_at(column:number, row:number) : Square {
 
 function init_board(b:Square[]) {
   for(let i = 0; i < 64; i++){
-    b[i] = {piece: undefined};
+    b[i] = {piece: undefined, highlighted: false, selected: false};
   }
   square_at(0, 0).piece = "white_rook";
   square_at(1, 0).piece = "white_knight";
@@ -89,10 +91,8 @@ function draw_board() {
       let black_begins = (j%2);
       let sprite:Sprite;
       if(i%2==black_begins){
-          // white tiles
         sprite = spritesheet.get("white_square");
       } else {
-          // black tiles
         sprite = spritesheet.get("black_square");
       }
       ctx.drawImage(sprites, 
@@ -102,6 +102,9 @@ function draw_board() {
   }
   ctx.fill();
   draw_pieces(ctx, sprites);
+  draw_highlights(ctx, sprites);
+
+
 }
 
 function draw_pieces(ctx, pieces) {
@@ -116,6 +119,40 @@ function draw_pieces(ctx, pieces) {
     }
   }
 }
+
+function draw_highlights(ctx, sprites) {
+  for(let row = 0; row < 8; row++){
+    for(let column = 0; column < 8; column++){
+      if(square_at(column, row).highlighted) {
+        let sprite = spritesheet.get("cursor_white");
+        ctx.drawImage(sprites,
+          sprite.x, sprite.y, sprite.width, sprite.height,
+          column*75, (7-row)*75, 75, 75);
+      }
+    }
+  }
+}
+
+
+function mouseMoved(event){
+  let canvas = document.getElementById("board");
+  let rect = canvas.getBoundingClientRect();
+  let x = 600*(event.clientX - rect.left)/rect.width;
+  let y = 600*(event.clientY - rect.y)/rect.height;
+  let column = Math.floor(x/75);
+  let row = 7 - Math.floor(y/75);
+  // console.log("col == " + column + ", row == " + row);
+  for(let sclear = 0; sclear <64; sclear++) {
+    board[sclear].highlighted = false;
+  }
+  square_at(column, row).highlighted = true;
+  draw_board();
+};
+
+onMount(()=>{
+  let can = document.getElementById("board");
+  can.addEventListener("mousemove", mouseMoved);
+});
 
 </script>
 
