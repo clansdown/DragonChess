@@ -169,14 +169,14 @@ onMount(()=>{
 </main>
 
 <style>
+main {
+     height: 100%;
+}
 canvas#board {
   
   width: 90%;
   aspect-ratio: 1 / 1;
-  /*
-  width: 900px;
-  height: 900px;
-  */
+
   border: 1px solid #3f3053;
   margin: auto;
   image-rendering: optimizeSpeed; 
@@ -190,6 +190,14 @@ canvas#board {
   display: optimize-contrast; 
   /* Possible future browsers. */ 
   -ms-interpolation-mode: nearest-neighbor;
+}
+@media (min-aspect-ratio: 1/1) {
+       canvas#board {
+                    width: auto;
+                    height: 90%;
+           
+           aspect-ratio: 1/ 1;
+        }
 }
 img.spritesheet {
   display: none;
