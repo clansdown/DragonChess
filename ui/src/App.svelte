@@ -134,7 +134,7 @@ function draw_highlights(ctx, sprites) {
 }
 
 
-function mouseMoved(event){
+function mouseMoved(event : MouseEvent){
   let canvas = document.getElementById("board");
   let rect = canvas.getBoundingClientRect();
   let x = 512*(event.clientX - rect.left)/rect.width;
@@ -149,9 +149,15 @@ function mouseMoved(event){
   draw_board();
 };
 
+// https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent
+function mouseClicked(event : MouseEvent) {
+
+}
+
 onMount(()=>{
   let can = document.getElementById("board");
   can.addEventListener("mousemove", mouseMoved);
+  can.addEventListener("click", mouseClicked);
 });
 
 </script>
