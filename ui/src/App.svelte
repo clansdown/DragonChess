@@ -75,10 +75,10 @@ function init_board(b:Square[]) {
 
 
 function draw_board() {
-  let canvas = document.getElementById("board");
+  let canvas = document.getElementById("board") as HTMLCanvasElement;
   let ctx = canvas.getContext("2d");
   ctx.imageSmoothingEnabled = false;
-  let sprites = document.getElementById("spritesheet");
+  let sprites = document.getElementById("spritesheet") as HTMLImageElement;
   ctx.fillStyle = "#3f3053";
   ctx.beginPath();
   ctx.rect(0, 0, 512, 512);
@@ -159,7 +159,7 @@ onMount(()=>{
 <main>
   <h1>DragonChess!</h1>
 
-  <img id="spritesheet" src="dragonchess.png" class="spritesheet" on:load={draw_board} />
+  <img id="spritesheet" src="dragonchess.png" class="spritesheet" on:load={draw_board} alt="" />
 <center>
   <canvas id="board" width="512" height="512" ></canvas>
 </center>
